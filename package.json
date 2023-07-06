@@ -7,6 +7,8 @@
     "compile-admin-ui": "ts-node src/compile-admin-ui.ts",
     "run:server": "ts-node ./src/index.ts",
     "run:worker": "ts-node ./src/index-worker.ts",
+    "start:server": "node ./dist/src/index.js",
+    "start:worker": "node ./dist/src/index-worker.js", 
     "start": "concurrently yarn:run:*",
     "build": "rimraf dist && rimraf admin-ui && tsc && tsc -p tsconfig.migrations.json && yarn compile-admin-ui",
     "codegen": "graphql-codegen --config ./codegen.ts",
@@ -15,7 +17,11 @@
     "migration:revert": "ts-node migration revert",
     "lint:fix": "eslint ./src/ --ext .ts --fix",
     "e2e:reviews": "vitest --config src/plugins/reviews/e2e/config/vitest.config.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build:prod": "rimraf dist && rimraf admin-ui && tsc && tsc -p tsconfig.migrations.json",
+    "prod": "yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist package.json",
+    "prod-nm": "rimraf node_modules && yarn install && yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist package.json node_modules",
+    "admin" : "rimraf admin-ui && yarn compile-admin-ui && tar -czvf zeal-admin.tar.gz -C admin-ui/dist ."
   },
   "dependencies": {
     "@vendure/admin-ui-plugin": "^2.0.0",

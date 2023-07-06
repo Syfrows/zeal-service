@@ -9,12 +9,16 @@ import { AssetServerPlugin } from "@vendure/asset-server-plugin";
 import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
 import "dotenv/config";
 import path from "path";
-
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
-import { customAdminUi } from "./compile-admin-ui";
 
-const IS_PROD = path.basename(__dirname) === "dist";
 const IS_DEV = process.env.APP_ENV === "dev";
+
+let customAdminUi: any = null;
+if (IS_DEV) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const module = require("./compile-admin-ui");
+  customAdminUi = module.customAdminUi;
+}
 
 export const config: VendureConfig = {
   apiOptions: {
@@ -52,7 +56,7 @@ export const config: VendureConfig = {
     type: "postgres",
     // See the README.md "Migrations" section for an explanation of
     // the `synchronize` and `migrations` options.
-    synchronize: false,
+    synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*.+(js|ts)")],
     logging: false,
     database: process.env.DB_NAME,
@@ -96,15 +100,21 @@ export const config: VendureConfig = {
           "http://localhost:8080/verify-email-address-change",
       },
     }),
-    AdminUiPlugin.init({
-      route: "admin",
-      port: 3002,
-      adminUiConfig: {
-        apiHost: "http://localhost",
-        apiPort: 3000,
-      },
-      app: customAdminUi({ recompile: !IS_PROD, devMode: !IS_PROD }),
-    }),
+    ...(IS_DEV
+      ? [
+          AdminUiPlugin.init({
+            route: "admin",
+            port: 3002,
+            adminUiConfig: {
+              apiHost: "http://localhost",
+              apiPort: 3000,
+              brand: "Zeal",
+              hideVendureBranding: true,
+            },
+            app: customAdminUi({ recompile: IS_DEV, devMode: IS_DEV }),
+          }),
+        ]
+      : []),
     ReviewsPlugin,
   ],
 };
