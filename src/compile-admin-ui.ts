@@ -2,6 +2,7 @@ import { compileUiExtensions, setBranding } from "@vendure/ui-devkit/compiler";
 import path from "path";
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
 import { promises as fs } from "fs";
+import { DEFAULT_BASE_HREF } from "@vendure/ui-devkit/compiler/constants";
 
 if (require.main === module) {
   // Called directly from command line
@@ -47,6 +48,7 @@ export function customAdminUi(options: {
   if (options.recompile) {
     return compileUiExtensions({
       outputPath: compiledAppPath,
+      baseHref: options.devMode ? DEFAULT_BASE_HREF : "/",
       extensions: [
         ReviewsPlugin.uiExtensions,
         setBranding({

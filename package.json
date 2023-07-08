@@ -19,8 +19,8 @@
     "e2e:reviews": "vitest --config src/plugins/reviews/e2e/config/vitest.config.js",
     "prepare": "husky install",
     "build:prod": "rimraf dist && rimraf admin-ui && tsc && tsc -p tsconfig.migrations.json",
-    "prod": "yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist package.json",
-    "prod-nm": "rimraf node_modules && yarn install && yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist package.json node_modules",
+    "prod": "yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist",
+    "prod-nm": "rimraf node_modules && yarn install && yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist node_modules",
     "admin" : "rimraf admin-ui && yarn compile-admin-ui && tar -czvf zeal-admin.tar.gz -C admin-ui/dist ."
   },
   "dependencies": {
