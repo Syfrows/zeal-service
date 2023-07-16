@@ -10,6 +10,7 @@ import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
 import "dotenv/config";
 import path from "path";
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
+import { FavoritesPlugin } from "./plugins/favorites/plugin";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -72,15 +73,29 @@ export const config: VendureConfig = {
   },
   // When adding or altering custom field definitions, the database will
   // need to be updated. See the "Migrations" section in README.md.
-  customFields: {},
+  customFields: {
+    ProductVariant: [
+      {
+        name: "MRP",
+        type: "int",
+        ui: { component: "currency-form-input" },
+      },
+    ],
+    Collection: [
+      {
+        name: "Category",
+        type: "boolean",
+      },
+    ],
+  },
   plugins: [
     AssetServerPlugin.init({
       route: "assets",
       assetUploadDir: path.join(__dirname, "../static/assets"),
-      // For local dev, the correct value for assetUrlPrefix should
+      // For local dev, the correct value for assetUrLlPrefix should
       // be guessed correctly, but for production it will usually need
       // to be set manually to match your production url.
-      assetUrlPrefix: IS_DEV ? undefined : "https://www.my-shop.com/assets",
+      assetUrlPrefix: IS_DEV ? undefined : "https://api.relaxzeal.com/assets",
     }),
     DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
     DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
@@ -116,5 +131,6 @@ export const config: VendureConfig = {
         ]
       : []),
     ReviewsPlugin,
+    FavoritesPlugin,
   ],
 };
