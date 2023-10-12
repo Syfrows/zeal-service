@@ -12,6 +12,7 @@ import path from "path";
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
 import { FavoritesPlugin } from "./plugins/favorites/plugin";
 import { RazorpayPlugin } from "vendure-razorpay-payment-plugin";
+import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -141,5 +142,6 @@ export const config: VendureConfig = {
     ReviewsPlugin,
     FavoritesPlugin,
     RazorpayPlugin,
+    APIExtensionPlugin,
   ],
 };
