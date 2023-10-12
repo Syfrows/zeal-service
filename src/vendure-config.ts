@@ -95,6 +95,10 @@ export const config: VendureConfig = {
         name: "Category",
         type: "boolean",
       },
+      {
+        name: "OnlyFilter",
+        type: "boolean",
+      },
     ],
   },
   plugins: [
