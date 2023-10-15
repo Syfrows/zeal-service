@@ -20,7 +20,7 @@
     "prepare": "husky install",
     "build:prod": "rimraf dist && rimraf admin-ui && tsc && tsc -p tsconfig.migrations.json",
     "prod": "yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist",
-    "prod-nm": "rimraf node_modules && yarn install && yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist node_modules",
+    "prod-nm": "yarn build:prod && cp -r static dist && tar -czvf zeal-service.tar.gz dist node_modules",
     "admin": "rimraf admin-ui && yarn compile-admin-ui && tar -czvf zeal-admin.tar.gz -C admin-ui/dist ."
   },
   "dependencies": {

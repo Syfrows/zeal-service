@@ -1,0 +1,61 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Check For New Node Module
+        id: check-new-node-module
+        run: |
+          echo "NEW_NODE_MODULE=$(git diff --name-only $GITHUB_SHA^ $GITHUB_SHA | grep 'yarn.lock')" >> "$GITHUB_OUTPUT"
+
+      - name: Build & Package
+        run: |
+          if [[ "${{ steps.check-new-node-module.outputs.NEW_NODE_MODULE}}" == "yarn.lock" ]]; then
+            npm run prod-nm
+          else
+            npm run prod
+          fi
+
+      - name: Upload Package To Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: sg1-ts106.a2hosting.com
+          username: relaxzea
+          key: ${{ secrets.KEY }}
+          port: 7822
+          source: "zeal-service.tar.gz"
+          target: /home/relaxzea/api.relaxzeal.com/
+
+      - name: Extract & Start Application
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: sg1-ts106.a2hosting.com
+          username: relaxzea
+          key: ${{ secrets.KEY }}
+          port: 7822
+          script: |
+            cd api.relaxzeal.com
+            tar -xvf zeal-service.tar.gz
+            cp zeal-service.tar.gz /home/relaxzea/worker.relaxzeal.com/
+            cd /home/relaxzea/worker.relaxzeal.com/
+            tar -xvf zeal-service.tar.gz
+            pkill -u relaxzea
