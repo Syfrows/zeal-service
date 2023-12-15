@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -58,4 +60,5 @@ jobs:
             cp zeal-service.tar.gz /home/relaxzea/worker.relaxzeal.com/
             cd /home/relaxzea/worker.relaxzeal.com/
             tar -xvf zeal-service.tar.gz
-            pkill -u relaxzea
+            pkill lsnode
+            wget --timeout=1 --tries=1 https://api.relaxzeal.com/worker
