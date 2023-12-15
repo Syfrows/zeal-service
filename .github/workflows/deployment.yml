@@ -61,4 +61,4 @@ jobs:
             cd /home/relaxzea/worker.relaxzeal.com/
             tar -xvf zeal-service.tar.gz
             pkill lsnode
-            wget --timeout=1 --tries=1 https://api.relaxzeal.com/worker
+            wget --timeout=1 --tries=1 https://api.relaxzeal.com/worker || true
