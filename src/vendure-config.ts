@@ -3,6 +3,7 @@ import {
   DefaultSearchPlugin,
   dummyPaymentHandler,
   VendureConfig,
+  NativeAuthenticationStrategy,
 } from "@vendure/core";
 import { defaultEmailHandlers, EmailPlugin } from "@vendure/email-plugin";
 import { AssetServerPlugin } from "@vendure/asset-server-plugin";
@@ -13,6 +14,7 @@ import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
 import { FavoritesPlugin } from "./plugins/favorites/plugin";
 import { RazorpayPlugin } from "vendure-razorpay-payment-plugin";
 import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
+import { GoogleAuthenticationStrategy } from "./plugins/authentication/google-authentication-strategy";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -45,6 +47,10 @@ export const config: VendureConfig = {
       : {}),
   },
   authOptions: {
+    shopAuthenticationStrategy: [
+      new NativeAuthenticationStrategy(),
+      new GoogleAuthenticationStrategy(process.env.GOOGLE_CLIENT_ID || ""),
+    ],
     tokenMethod: ["bearer", "cookie"],
     superadminCredentials: {
       identifier: process.env.SUPERADMIN_USERNAME || "",
