@@ -14,7 +14,7 @@ export class CustomerEntityResolver {
       args.options || undefined,
       {
         where: {
-          customer: undefined,
+          customer: { id: customer.id },
         },
         relations: ["productVariant", "productVariant.featuredAsset"],
       }
