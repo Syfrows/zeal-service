@@ -15,6 +15,7 @@ import { FavoritesPlugin } from "./plugins/favorites/plugin";
 import { RazorpayPlugin } from "vendure-razorpay-payment-plugin";
 import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
 import { GoogleAuthenticationStrategy } from "./plugins/authentication/google-authentication-strategy";
+import { orderPlacedHandler } from "./email-handler";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -119,15 +120,24 @@ export const config: VendureConfig = {
     DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
     DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
     EmailPlugin.init({
-      devMode: true,
+      ...(IS_DEV ? { devMode: true } : {}),
       outputPath: path.join(__dirname, "../static/email/test-emails"),
       route: "mailbox",
-      handlers: defaultEmailHandlers,
+      handlers: [orderPlacedHandler],
       templatePath: path.join(__dirname, "../static/email/templates"),
+      transport: {
+        type: "smtp",
+        host: "mail.relaxzeal.com",
+        port: 465,
+        auth: {
+          user: "noreply@relaxzeal.com",
+          pass: process.env.SMTP_PASS,
+        },
+      },
       globalTemplateVars: {
         // The following variables will change depending on your storefront implementation.
         // Here we are assuming a storefront running at http://localhost:8080.
-        fromAddress: '"example" <noreply@example.com>',
+        fromAddress: '"Zeal" <noreply@relaxzeal.com>',
         verifyEmailAddressUrl: "http://localhost:8080/verify",
         passwordResetUrl: "http://localhost:8080/password-reset",
         changeEmailAddressUrl:
