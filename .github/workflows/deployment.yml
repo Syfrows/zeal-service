@@ -38,6 +38,10 @@ jobs:
             npm run prod
           fi
 
+      - name: Build & Package Admin UI
+        run: |
+          npm run admin
+
       - name: Upload Package To Server
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -47,6 +51,16 @@ jobs:
           port: 7822
           source: "zeal-service.tar.gz"
           target: /home/relaxzea/api.relaxzeal.com/
+      
+      - name: Upload Admin UI Package To Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: sg1-ts106.a2hosting.com
+          username: relaxzea
+          key: ${{ secrets.KEY }}
+          port: 7822
+          source: "zeal-admin.tar.gz"
+          target: /home/relaxzea/admin.relaxzeal.com/
 
       - name: Extract & Start Application
         uses: appleboy/ssh-action@v1.0.0
@@ -63,3 +77,5 @@ jobs:
             tar -xvf zeal-service.tar.gz
             pkill lsnode
             wget --timeout=1 --tries=1 https://api.relaxzeal.com/worker || true
+            cd /home/relaxzea/admin.relaxzeal.com/
+            tar -xvf zeal-admin.tar.gz
