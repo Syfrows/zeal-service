@@ -1,0 +1,233 @@
+
+
+<!DOCTYPE html>
+<html style="margin: 0;">
+
+<head>
+    <meta charset="utf-8" />
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+            h1 {
+                font-size: 1.9rem;
+                margin: 0.5rem;
+            }
+            h6 {
+                font-size: 0.6rem;
+                margin: 0;
+            }
+            h4 {
+                font-size: 0.8rem;
+            }
+            h5 {
+                font-size: 0.8rem;
+                margin: 0;
+            }
+            h3 {
+                font-size: 1.2rem;
+            }
+            h20 {
+                font-size: 0.8rem;
+                color: #00000080;
+                font-weight: normal;
+            }
+
+            .quantity-info {
+                width: 10%;
+            }
+
+            .product-info {
+                width: 58%;
+            }
+
+            .vat-info {
+                width: 20%;
+            }
+
+            .subtotal-info {
+                width: 20%;
+            }
+            
+        </style>
+    <title>Order: {{ order.code }}</title>
+</head>
+
+<body style="font-family: IBM Plex Mono, Arial, Helvetica, sans-serif; width: 100%;">
+
+        <!-- INVOICE INFO + LOGO -->
+
+        <table style="width: 96%">
+            <tr>
+                <td id="invoice-info">
+                    {{#if isCreditInvoice}}
+                      <h2>Credit invoice</h2>
+                    {{else}}
+                      <h2>Invoice</h2>
+                    {{/if}}
+                    <h5>Date: <h20>{{ orderDate }}</h20></h5>
+                    <h5>Order: <h20>{{ order.code }}</h20></h5>
+                    <h5>Invoice Number: <h20>{{ invoiceNumber }}</h20></h5>
+                    {{#if originalInvoiceNumber}}
+                      <h5>Credit invoice for invoice: <h20>{{ originalInvoiceNumber }}</h20></h5>
+                    {{/if}}
+                </td>    
+                <td id="logo">
+                    <a href="https://zeal.relaxzeal.com/">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArsAAAI2CAMAAABnk7C2AAAAk1BMVEX///8DBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAADBAUAAAD////z8/Po6Ojc3NzQ0NDEw8O4t7eqqqmdnZyPj46BgIBycXFjYmJTUlJBQUAgIB8DBAUAAABzUZfMAAAAH3RSTlMAEBAgIDAwQEBQUGBgcHCAgJCQoKCwsMDA0NDg4PDwFagsVAAAIDhJREFUeNrs3Ytu86gSB/ARshCykIUsZCGE6F7O2T17+zTv/3Qnl7ZJt/EliY2B/H8vULWdkGEYBgIAeFqrBQEUSDPzgPCF8mg+c11DAAXRfOERvlAOzV95IwmgAJq/Cz3CF7Kn+QDhC+Xp+QDhC+WxfIDwhfJYPkD4QnksT0DhDPJleblBE0AuLN8lWuQOkAXh+W6hQ8sDTMg3dI9sSwC35R26B8Fg4wb7kZ6fMWDxhZ3IyGdYfKEsn6GLxRfK0ka+BWUHyJ3mFaHmC0cFhu6Bx4EbnOR2mLZExL4NygzdI6sIYEvC8SekDlAQ4XlDwaDqAFmXdSdEi8QXtqAib29A4gvZ18bGOCS+sC7DyQREL+RfGxsRsW2DIgoMiF7YjAy8AxQdoIwCA6IXyi0wIHqh6F0aohfK3aUheqHgXRqiF56mI+cB0Qv36TkfiF7IolkX0Qv1p7o4a4OiqrqIXrifkHQiLOcposcMvpOdDazoqPGcraDpGVi4K9O0xvGRpqM2l9LYbU7Ro9QQCaqhuiHwuz670thtQ0OPaB0z41JRFaTuPV+xuecLF72ge+nAR4agbOcs4Ssv8s8XPsWO7iFM5DNHUCyhjIv8XRBEIv984VNQtFTTR/6AhLdMQpkh8G1REski8oVPrqElpOVrBIU5h+0ERdRxaYygOcrxV5iaWpDmFLYzdHb9C6ucVejAX6DQUAzZGhd5gb6YTdod1d7GRGbEbnlU1zteymZ7CPx49CrLzIjdssjWDIHv4VV2TWN3cVrQV6ILzIjdgjTKWMd3CwUvuh8GLa++chyPQ0dDZo5RW+Jea1XeHQX+BjWyPKnWDC8ftUvgXC0fUpnelZ2nJoZ+ht2pFkF7BxxNZEApYxzSg+cEgmSEUp2xrqxOg3x1BJsHbGuMda7Qw65sRVTIFmnUgVgaq6doNb1zSGWxU9uZcnzh3U0I1GvIdvMgBob84Dx4TnFN3K+iJyhmfiLgSK2oUeFwm0eNYUL2Q2VeWcSJ2oQShsq8LIRuTm+Xwh0CQhelsTIh10WqW6gBoTtDItXNE06CixwVDhxxmoZdWpkc8gUcSBQpomG3tAed4N1AcKLeiQyf3YVrGFn6QXXfLooNWiB0S/DCZxKys4FvilZl+4wevPoFNaFt5AkaZd38vWLCK/TA0zqEbgno1eiB51iEbhFaeiVNH3mWQ+iWwdLrUAMv4AVCtwyvM5JBu3s6mRuEbv5e5PlsHXgZibpuMV7iiqUKvJBG6Bakodopd+89f4RuGWpv320sL2bROVaUuic5CRN5MS8KeaofXmCUkwq8XBS4JVGYeku8zfDAPX/JUI5aS7xd5OWCa1HYLU+dJd7G8RLeGaOUQMNumTxVaH7Rjc60EpfTCldfB/rcohuHTtINHUNZqpu8O73oRtvSN9inlamya2ti4AlO0xiBKz7lqWq3piKPc4rGYV5egWq6+tNPRi5GN1WnmoYc6XlUbGkEKrsFq6UhR8fHx11iAE6Z6mjIEZZHRU0XKI/VpIaGHOGnmxWQMdSpgoYcGXmUb4iQMdSq+IacydAVGA9dsdJLvDI+c+gtkDEUrPCGHBl5AuZD163ohhwZl1VR0MdQpZIbcoTnKQ4btbqV3JDjeZLFRq1y5e7W7JOnhmgfK12xDTmaZxicqNWu0IYcyXMM6mO1K3OAvwg8R+Ppv9qV2ZAz8CyFZbd6ivYgBD2h43lYduvnaA+D2iTZvfBYdl+ApPQMq00OJS461HZfwEDJtcxq43eqG9R2X4GixGR8pr7RPt2a3DJUwlFawk+WX1e569Cgk+E1dJSU52di1/ECBg1kLyIKSsjyM7FreAGPvt2X4Sgdw8/EruIFvECB7HUYSkU/laeIsCh00fz4SlpKQz9X3Bh4nsU4kdcSJaWgnivMdTwrtDStYdiW5yvVBK+MT8Wu4jnBEGEUzs5sjcEr42wB9qlN1tDSFDxfmYbpObXY0kKi7d2Toct0PznwuGBbOkHKsDfV8jdZVBtE23s+eDJ0mR7RdH7kIYmGzpAy7K9peAdezsftuycnjTp6UKOt54vgTHuJW6QMOdir18k2NKLt/TPrpl6zeU2oM0FXkDLkwe13cmklfSP08ORJXJfJ3GocTGzOrpaY/eC7hV7RhVDGP32KbJOeheBllD0ZIsWr+PlvfoR35si6sMIwKOGyuKxxhF6GzSki4jX8/fbLj73n6cjA39A+FMPW5Frn7n++vf2680gSHXO54In7wSnQQc8r+P3t7e33Pac6CJvT/En04WzOr7Yl/u3t4C9eW3/n02e5bNUYtjaslpv9+nbw04+9UgaT10MXuO2zPUNHa8Xu+imvW7roZvZWAA6Et9eudnz537eT/+1wK16Y7Mat46ba9iQd2VX2aic//ZN82dUhr1E8aGZIY72Czl9vZ78mXnaVy/GlAIathRUL6T+9rZ41WJrTuCzf08TJxPYcnYh1CryXrCHRNAc1ZHKxE1u19MyKh+8/fnk7+0+iK8Wty/ZxoZ5ha3rNU6C/P7KGPxOMjWxMyPgJbpyqbU+tuk78c1h51zuhCILGCD1kO/AXo0sTWTs/+/289P7GK5DjgZv9CxcMWwur74t//PHLSn0NHd2ijM926iROhFNy9E7wev75478//7xBeUzq3vFtefUyoESWgtnsS+4Hz1g+pU4qZYzz/C8Z79TQvJuAzndj7N2BL+5pFpTIUlE19444GocSWfGq/pZTNA6dOKULdKBUnbuLQBNQIiudO49vCVVWdTSNQ4mseOb9rpqocKkINA4lstU5Tky/j29RFaZomsahRLY6xYmp9w6yrr4RRIEmYZzTugJxYuI9NevrWytaGocyw+p0w4l9hKyrbmyhox0J3k3kXQRqOS33UUWP1e0vFI2qeas2ON6FJsNp2fMSUWGhYaBxFW/VvOBdhPRpUkfU8omqrF26oQnVnghHKXkXhgQnJj+bRrq6zuANjas43VXU8R6iIM1pxcti21fV+xQFTal1WH+3V0eVSb/wDZf3PFxV17I1Tai2umv3yvuioIYT01dLRE2FBkfj6k0Z/G4/ut9h3RNE9mpzI7gSDY2qN2U45Ukt76FJv94P198xup5Cg6EJ1VYZ5G7FObtD31xLV2mKrebqhKdVFfIkoN7vY9Okj5zwZXsWajkVjg3NqHHwbr9fy7sdmQiWoP+xtoRX075E5PTcji3vMv2iF663pfW0QVqaVuV5cBD7DZ90O8SN/tfv6qtIGrygcbUuu1HumK6o9Bm++zbwTVZQaZhJditddts9BvjteKglv1UDbQXHE5KmVLrsmj0rHG36j0x3o7u/Kb6nQdOcCufhWPrQcnIh/YI33Dr/saWPx9E0p8Larhd7fnB08pDx4ubXmyo7eC3Nqu9ILYo9f3pIniZ5cbvbKYiSg9fSrPo6GaKkC05Op/6lvRj7O9uCp+pZmlPjRk3veksupl7tvRg/gumKDV5LC1TXt2v2fRbLJE7x7Tl0I9+kCw1eQ/trOTW770cnirQbxI6OVBzNn4oMXk37ayIn5nceaGKSnoc4OfftEmV5zzLGlpaobRaOF/SFMJGTStntHjUdNcPczrWs1oYgaZHKTiUuJQbDtrk8aJ9A8vOAaAQdmchcU/A6QUvUVh77DF3pmfkzelvHqTTnTsRkkSu6sPQruI1cAkM5kJET0/9u/nGKTpo+cgo20UfW6bt+LU1HsoDgjYqWqa2yq+mk8Xx2Hb1Ce95ekyTJt5KOGnvnX0ZmP4ozj3yBhOfEejrpIn/hNZ01feBtDQn6N6JtRiJ3PnhF3sEbO8qD48QsHTWOvwma3rU28oYUHZgUG7TGPlQHFjkXel1DebCcmL0sut8FIxKEr6OjsGnkPlz5s5m/nBA1ZcJyYoYOxDD5b986fNXGdzt7cZUVPRq8Os8dm80j090jdPV8FSj2DX1Svee1uU1r2peKX3iu+iQzvMTmsjiO2CV0Y3tZdGf+/ReNtnGDMkfc9r+rHD+MzkRuV99DNulC+tANkohUfGAsm+yGwCsJGzYfefX/9s5wMVVdicJBRLCooKBAEV+B/f5Pd+9u7QZPrVqSwJqwvv9nHxuGSWbNYqK6Em0wK8jrwmDUBY3Q1RIFF4fBl3QtN4d3c2k3t1nGLEy5syKYc8MlhTnoThC66S+exU79QLTLSxNpV12sPt2z9kphnRuwInfs0D1HXdJ9zuOVWr6lealnpH2zUaJ15CYuy4HRG84bqMhdjNySOC26VqehD0kW0SbNy/Ow7ztzuwX4zsz88K6LMyElUIWm0XTU0hdSS1duLKJok6ansnz/xX58NrypmL2kTnV0OvE0lBimm46RpcNDl3St340YfbBLv7GJPlh8LoDpEs1G7EKceuFCd6z3uNONdljO0IPZMsZy7D4vcl29/kTbaq6flJblr4eaCvnG6YcCPDIwmg7i4AB21h1L8O4e7e4CtlxLg6ehu0RmN+rO2DMyZ4XEqO66fPn7OvkiaOfZKGUxdp8/u3ml3eVIAkOneL5dBjnTJQxSyQfsbXoF0vI2984q7XZV2kiRuzghFrYXQ+NJBrwcuq2ZRfpVtc0s7Y5XpeXLod+8Kvus7D5Z/ZfjyVP8OoTNKe12x6VxIneRY4oyO9vy0eqPvdjtvuibkbY7Ui+t845HZ1BB8WT7epCD/Xz39pkX5qHtjnPU7QTPxQF2ZMXF9myNi/2g6caVuHsBisY+qeWsj86w41ZWRrqF+mWFvtSy+t0XJXiCD46q20WuSoFHBW1sJ6XzGOX9oFEsYO1NGO9NL3JX73reVXwzw0H/3dDfrK3OwYKYT6rUbtzIVSl2gVAaSUr6aVe/s/hcNUPOISA288tO9ZIuuKZoOSmlU4TNMj07eGLo2gOWtYX7fie83sTKrnq0uEzUzXo7OSbtdkrVSKNSTvCr9vZHm6VV8fi6nIOSr0PDdUeYhlmuzD66nVLoHtDU6ptx0noxT650JXb2S7Q3dcsGvkg4WfTgqMV5agPMcnc2cBnIIxwJ3XTxiq0by79b2gyuA4IBJsp1b1R4jnTvzd1BrGf0VqTN4IpAjpqL3Vl26KpyLF2szwH9wGuxmFyczZmC9ZOvaNPuH5ucfljkN/ADb2SxjjmApN2v5PsuNnQXtqeF3Afc8RzZS7vRH5y0+0kkdap5ZDPpWqzjl8hOnEdp9wyVdj/IJZ51/89umkmsO+yvpFJr3eAULu0qtRR4y6rNQQzvK/WIFbZxVG9VznbvqcuVaXJ5t6b9pZzIk3zWfTeAY3f3OErwjktLWY3gL87jFmn9hwhsx8kteQ2WfxDT7ut/7zvMeeEv454XOt6g7TilVnBJS7uvvlMXpKSr1GpcfaFjgVZs31DaqdQWoGn3tZcqR7mqUjP96VdRJXJ3orTjtdjBmmYjcZGrVDrZiJ8dsh2ntJMY33Gdh+XjxcaLXKXyqUJXrRDPfV+UVlZgCZt2HyfeE9Y1KF+U0w1WuwB/o1paURlWF+DpX+UP/8McM3D/z3Shq3LgYq20IzwvDrjtxNW365DKU/qGGrdaha/+ym5AT35/SW3pAMsSNO1eWUZXgIP2SjRd6KoFcLGW2nMWR2dg27IkdlPOpnrH/XYit1lMpRcYF45kDlMOSUlhz37qYlX+WOSAR3xxaMoMet+NRrBWspVtn8Vq2MIz7Wo4ccwaki+oxVpk3yP0dkZpB0tl2hszTqhWsmgMb2Z6QerGiGM17UTADWqxFo2yGSxyIAeHOLScOPoF8BK1WLMbux2rEsb1KY504ju23kGLNfux2x17IXoxAsknvuzlAFqs2T/vdqQXiK9LxVFOPIj1DbRYi8b8TYsDRjtYGH/00NduQIu1aNz3aXli2jXtxLGv3Zwwi7Vo7PcpKtkONvuI7EvmO8xiLRr//LQ5sx2sETkT7NxLzGItmsJWvLuwHawhkY0fQGdIG2Q0yS60SC9sB48rM2yUBgfIb9aiiV7lRc52sEZrYOTc9wb5zVo02acNy5zt4JeYrFLrWEB+sxZNKDqvSraDn7NCuCCuRCzW9GJXl6hkO1jjCY1XLu0Qi7Vo4oZJVLIvMYLMkOsmf8RiLZp8+kdUsh1socY3nBLOgMXalLHbRS/Trl2JTD/x5YDFGkLsKhWVbAfbjN2L0mXjWuwazJJRyXbwfUqIC5EXrsVuqgwSnZh271Fi3EP/DhMogLGr1JKnXUuxa2BhU6BAAYxdco8LxjjYFV6gMHbR+aPPeTHhO3Qpy3LD2J0lm1zrqPme71bKBKvoPpv0hk3UgdxxpG9mJKK39FCWl99luzzdRU6b8iJAjwV5PDQ4/eRQ9si/0p6MicKMXTJreGYggom6fehU/qNfppb/SP+yi6LI7ZMUIYQQQgghhBBCCCGEEEIIIYQQMgJ+iIqn7hCESHhKC7N/oK8U0s8JPWWbY4tKqO7QtEgo43hNO5Sj0sTwevvKNlWLiqe+47VI1Mo4CdSvUR7Ui/1fWlQadYewRcJ8pvPbFirRaax3oWwTtKgU99MSEgnWCW4NtQ3slW3iFpW7gZG1SKyB0pz+q2R4vbfqFqgXyzKxukPRIuErY3R/HtQuXZgrtaF+nGVC/NM52CbYQFVDnuoDpoFYBv90XiizeDXaPhBgqR7ImlOfSt1h3SKRoZ3fYmWYNc6Lja459Tnin863MG2JK3ugaihRttm2qCT4TcAQpqa/UgBJdrG6BUoDmSIw6hYJD+Vsab541F/vYMYygw8vM9R4jyLAkRlm3BFu8U/nBV7lsYWphiql2BHGbQImKNtzRwajN38vtYE0kAFol8z7FokYr2iulFH2KC82vubUZ4t/Og+g9LFPYI7g6xmXajMznu8hZTto4zmW5iTLeF6h2Hb7bFGarjOWGWp8mSHD6AHccgSRGebcEZ6X8TzE1JwTjBfbiY4wVhMwhPxm0MNoum7Vd2A0kLal8RzEtntDiFHJz9l4HsCfzhsc226fBKMa8uZbqs3KeJ5g/iwVQH3B8U2ZQUWA8XyvDOE3mNsBjefOGs9jUBuqPw/jOVYwzNR4HsB+dw9tPMcKBmHGc9R6ea9MUSPLDLijyOZjPF/j1pDsCDtqPD/COkpmYTzHCoZ5Gs+3uNZMaOM5VjAIM56voWy7fWIaz58wd+O5D9uU39N4/hAaz3GbQ9UcjOdYwdDHg28CFsAipTKCjywzYH2FMEfjeYjcNaHx3FXj+RZYX9+6bzzHCoYZGs9j5D0B23iOFQx9YvwmoAdm2zXf8quQO8K4MgO+8byG3vc8Gs+nIp6F8dxvoA800MZzrGDosRcwfSqBPrIlrhvPsYKhI5NQWcbQqeNI4/kkZCJO5wF0tdEofQpk4zlWMHxRyZg+Bb7r+Y4bz7GC4UrliagsK/DVX9N4PjqVJ6MJmIEf2BKlSwgyVkpAMHzSeEKmTyWAtl2zlf4W2XiOFQwfNIGU6VMhoG23T+O28RwrGJ6FriqAKwcM2+4NgdPG8zgxRjVCMmuAKwdAiSdWmjQYVxkoGZ+9PVxuH/iTVcRSY++y8RyutxyrR4TAlQOKbbdP4bLx3BhBM4ZfOgGuHFBsuze4bDwHC91MPSYDrhzA9DEjFWqGLDNgPYhMPaEC/mQVqy1xZeuw8dwMXjWS78mdyuHLtovd+YM2niOFbuWpJwTuVA693RjXcQFtPEcqmJ+Hrlo7Uzl0BTzyB3XQxnOgFPJC6KoE+JNVtLbElXCiM/leSSAz3AmeQ0e4n9CA7ULQxnMYQ8RLoatqVyqHuu0DOx8Y2niOorC/FroK2EsKqI99UDtrPAcJ3Rc7B6EjlUNfDUcu1qCN5yihG6uX2DrS5NkPLH+GpQVHjecgneD41WfuRuXgD01l7RASR43nGKG7Vy9SuOElLdpBxMN09MJR4zlE6Gaqj/vG83Bg2h04Yrqh8fw7XmUhdGdgPB+4bPFQecKn8dxS6BaqzwyM5/Hwwn09LOhpPB/DfzMD4/lQfSwebI3Z03j+H46jh67KXGjyJDp66bAcSOO5FRODB/Z91zOaqWy7scYK0HhuxX8jbfpUMdHC1Tr/dUDjeY/EUOjCTKp9lf1Ett1YZ91jGs+Nd4IDVN/gz8TTtCVqrdDPaDw3bmLANV/9SDjNysVaimtF47nhz1Vi2E8N7Enuta4pa8xfXSBfrCbCfwM15LqepkyINeMppPHcqIlB5JDr4yRtiUJXptjSeG5wrEAG/GXtA5JJhMVQN3MfaTw36L8ROuR6rTTwDRTt4XixtHVMZjBmYhA65DqY4qPbUD/+PRrPlanQhZ5o8IAp5JnCwCE0pPHc8hARfSM0cke41ki7uhGVzN54bsjE4IPezfCcbIK2RGHiGRRzN56b8t+AD/B6QDLBZ+2hCYm4GbLebnylYnSICP44jh8Jx29LFGZCyp+18dzUEBHwmZ+WnH2+qdfFH7jsczaem/LfIF8sYtHZlxmrDgeG04yN54Gh0BV97XExvn0pNCRdFQPW25HrEYLGQq0zI+N5ofm26LcMZms8DxqxEhOE8Tw2uPtux5FcY0c6wl5tJnSFTP00f46rDUZBCG/0RzKem7rER8aMewuSe2LyZfEGBtQsjefG/DdCBoX/SD12W6Iw2KutZmk8LwBC98Vsg2k8z8wGQTHGpuE50RHOzOQsD+IbOS2SkdsSR6PexHB+xnMbJoZ5Gc8LDZnU4FJsZ2c832OErmDjeaghy5j8B7O5Gc9jkNAVLDPUGmnX5FG0npnxPMYYJiO5IxybV8ObEYxErXTj+RomdMUaz71GI+2azYnhnIznQYMSunJlhkTjTTF8Fk1mZDw3ZWLAmTupRzjqfuEb1wCO8zGeI4XuS0PWEY3nmY1lC+0Xa0fRMoNXAYWuVON5qJF2zfe8/JkYz02ZGNRfZiszFFqvvGmhYT0P4zmG/0a68Ty2FACF7d08kCwzZFChK9R4Ptz2nFlpehWzMJ6busQH63oLPcIRf7VvJbSaORjPQfw3wjvCw9sSmaUSMHDfeL5FC12ZxvPMXrnTDiN23ngeQ9wqIt54HrRDqZNnWN7PPakXq+H4b2R3hIsWjsJx43mIF7oijedhC4jbxvObTjDKiV2i8bxuAQldNp5DmRigtl+BW8XglFKA7Le/woMMXYEdYa9pEcncNZ5DDBFxwnietJBUzhrPwUwM/whhNgBJb9tdnDWeg4auSkBKRll24+HFWoKz5Qr133QcpTV5IPWxDxI3jedwJoZ/VNKaPIBtiStHJ43nKENE7iBtiHHcwlK7aDyHGSLynUBYk8eDbEtc8dwznt+ELthIlFjY6QtUH/tk7ZzxHNB/05GA/R6ZbYkriWvGc6AhIncoZFUOWYtM4Zjx/CZ08V66WtTpK2ihadwynmP6b/7hyWry4Opjn/guGc+9Gjp0VSiqyYPblriydsh4fmNiQKwwt6JkBmR97IO9O8ZzVP9Nx17O6QvVttuncMd4fkQPXVUIavJg62OfOGM8RxsicgdJTR7otsSVwBHjOa7/5h++lNMXsm23T+yG8TzBD10VwunNAm27fTInjOdx2wG7UwgynsPrYx9ULhjPoU0MEo3nVSsCB4zniENERBvPgW27v3inKzAXoZghIneQ0+SBb0tc2Uo3noObGAQazyXoYx8chRvPfSGhK8d47gtoS3xSyzaee1VrhMI0e7HGc2zb7g2end2jKYwSqLt4sBVxYq5DuQ2t4Iu07d4QirBwesJCt43hfVkx+jN/TiLBB9eI294CwInnryStdSuII/aE+U8KaaHb4reqwNPVKzQSWoN7aaFbwftha6G23Rt8Af7jWFr3J4N/0Y5Sbbt91gLUklBY6LYJfAmUoN4p8BsSATKDtNBtQ8CJ57espdp2+xTIE+Y/qcSpkD58VPhSbbs34Jvnj99CF/xc1uBLT9C1+W+kSHCpD//0+B8KeH9LIde22yeG9xOtpamQe/jdOBNXQtxlD//Rkg/bNPmBGD6lbeXadvtU8F9+iDuY4csMIfA2+xvQZYYCt2ki9mXz5Np2bwildYTRJfQa/ihZAzeifsUW/Iu7rTSZ4Qi/HxdGBfNCm8FJPwOXGfBPj+I0PaO/sJjwY40KvCPswTZNXtX04M6SsUktP1TabPWCA3a9a9yTuFhNLzAomBeTztgIZRnPcU4zYmUGk8JNOOl9Bgm0zJDgNk2kanqVhm1XP+0a3eWP0MbzNW7T5D57eP0pM6g5htMO1q6hjeeBNJkBX9NLzNW+xdQXGvjIMoM0764ATS8096jDqe+3WAN3hCvcpolYTc83VtkUkw/zTICN55k0maHGNUJfacyVD8HkFycWNJ7PSdMrVI8YYwZh0w6kkdQRRveZ4mt6+1t9DGJSbTE89eOutwfbNBGr6cWqI8FIu2rvoNG/wW2aiNX0wl5dA5J2NYSGPex64zepRHeEM5C0q7FKBex6izOe42t6df85g6RdnaMg7HrH0mQGfE3v2FtMlLSr41sMUNcbv0klTtNLOiUUJu1qDYZHXW/cpskPhLBG6O9CSI2TdjXOghnoelf4lY84Tc9XVxKgtKtxTK1A1xv/s0V5ml7XlgBKuzrrBLre+E0qcZpeoa7skdKuTiETYq43fpNKrPHcB7tNsR6e4DDX25cmM+Brelv1SYGVdjV+zxFzvWk8t/ULQ7C0q1HJ1JDrXcA3qeRpep76oAJLuzqP1kNc7700maHCNULfJqkYLe3qbARrxPXG/2xRnKZXGNDHmo+0iyM0JIjrTeO5pV+Y6P8bQEJDgbje+E0qcZperG/bbT4eC5DQ0ACut/xRZDhl743rKgNMuzp7gY+33vhNKpnG87AFTLs65eMab70TacZzfE2v+tidEdOuTtzt8dZ7LU1mwNf0MqXUGjLt6uz3Bd56B4oQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgh5zP8APcBjpZzZgY4AAAAASUVORK5CYII="
+                            style= "width: 200px; float: right;"                              
+                        />
+                    </a>
+                </td>
+            </tr>
+        </table>
+    
+        <hr> <!-- LINE -->
+
+        <!--CLIENT INFO + COMPANY INFO -->
+    
+        <table style="width: 100%" >
+            <tr>
+                <td id="shipping-info">
+                    <h4>Shipping Info</h4>
+                    <h20>{{#with order.shippingAddress }}
+                    {{ fullName }}<br />
+                    {{#if company}} {{ company }}<br />
+                    {{/if}} {{#if streetLine1}} {{ streetLine1 }} {{ streetLine2 }}<br />
+                    {{/if}} {{#if postalCode}} {{ postalCode }}, {{ city }}<br />
+                    {{/if}} {{#if country}} {{ country }}<br />
+                    {{/if}} {{/with}}
+                    {{ customerEmail }}<br /></h20>
+                </td>
+                <td id="billing-info">
+                    {{#if order.shippingAddress}}
+                        <h4>Billing Info</h4>
+                        <h20>{{#with order.shippingAddress }}
+                        <br />
+                        {{#if company}} {{ company }}<br />
+                        {{/if}} {{#if streetLine1}} {{ streetLine1 }} {{ streetLine2 }}<br />
+                        {{/if}} {{#if postalCode}} {{ postalCode }}, {{ city }}<br />
+                        {{/if}} {{#if country}} {{ country }}<br />
+                        {{/if}} 
+                        {{/with}} 
+                        {{ customerEmail }} <br /> </h20>
+                    {{/if}}
+                </td>
+            </tr>
+        </table>
+    
+        <!-- Don't render order lines for credit invoices, just the totals -->
+        {{#unless isCreditInvoice}}
+
+        <!-- #, PRODUCTS, QUANTITY, AMOUNT IN $ -->
+        <table style="width: 96%">
+            <tr>
+                <td class="quantity-info"> 
+                    <h4>Qty</h4>
+                </td>
+                <td class="product-info"> 
+                    <h4>Product</h4>
+                </td>
+                <td class="vat-info"> 
+                    <h4>GST</h4>
+                </td>
+                <td class="subtotal-info"> 
+                    <h4>Total</h4>
+                </td>
+            </tr>
+        </table>
+
+        <hr> <!-- LINE -->
+
+
+        <!-- PRODUCT INFO -->
+
+        <table style="width: 96%">
+            {{#each order.lines }}
+            <tr>
+                <td class="quantity-info"> 
+                    <h4>{{ quantity }}</h4>
+                </td>
+                <td class="product-info"> 
+                    <h5>{{ productVariant.name }}</h5> 
+                </td>
+                <td class="vat-info"> 
+                    <h5>{{ taxRate }}%</h5>
+                </td>
+                <td class="amount-info"> 
+                    <h5>RS.{{ formatMoney discountedLinePriceWithTax }}</h5>
+                </td>
+            </tr>
+            {{/each}}
+
+            <!-- SHIPPING COSTS -->
+
+            {{#each order.shippingLines }}
+            <tr>
+                <td class="quantity-info"></td>
+                <td class="product-info"><h20>Shipping costs</h20></td>
+                <td class="vat-info"></td>
+                <td class="amount-info"><h20>RS.{{ formatMoney priceWithTax }}</h20></td>
+            </tr>
+            {{/each}}
+
+            <!-- DISCOUNT -->
+
+            {{#each order.discounts }}
+            <tr>
+                <td class="quantity-info"></td>
+                <td class="product-info"><h20>{{ description }}</h20></td>
+                <td class="vat-info"></td>
+                <td class="amount-info"><h20>RS.{{ formatMoney amountWithTax }}</h20></td>
+            </tr>
+            {{/each}}
+        </table>
+
+        {{/unless}}
+
+        <hr> <!-- LINE -->
+
+        <!-- TAX INFO - (SUB)TOTAL PRICE -->
+        
+        <table style="width:96%;" >
+          <tr>
+              <td id="tax-information" style="width: 50%">
+                  {{#each order.taxSummary }}
+                  <h6>{{ description }}:</h6>
+                  <h5>TAX {{ taxRate }}%: RS.{{ formatMoney taxTotal }}</h5>
+                  {{/each}}
+              </td>
+              <td id="total-amount ">
+                  <h5>Subtotal (ex GST): RS.{{ formatMoney order.total }}</h5>
+                  <h2>Total: RS.{{ formatMoney order.totalWithTax }}</h2>  
+                  <h6>Thanks for your order at Zeal</h6>
+              </td>
+          </tr>
+        </table>
+
+      <td style="float: right;">
+        
+      </td>
+
+
+        <!-- COMPANY DETAILS -->
+
+
+        <table style="width:96%;">
+          <tr>
+              <tr>
+                  <h5>Company details</h5>
+              </tr>
+              <td id="company-details" style="width: 50%">
+                  {{!-- <h4>CoC:<h20> 123456789</h20></h4>
+                  <h4>VAT:<h20> 121212121212</h20></h4>
+                  <h4>IBAN:<h20> NL20INGB12345678910</h20></h4>   --}}
+                  <h4>Mobile Number:<h20> +91 9823144128</h20></h4> 
+                  <h4>Email Address:<h20> zeal@relaxzeal.com</h20></h4> 
+              </td>
+              <td>   
+                  <h4>Address:<h20> 344/345,Narhari Enclave, N 1, Cidco, Maharashtra 431003 </h20></h4>
+              </td>  
+          </tr>
+      </table>
+  </body>
+</html>

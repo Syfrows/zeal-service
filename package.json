@@ -24,6 +24,7 @@
     "admin": "rimraf admin-ui && yarn compile-admin-ui && tar -czvf zeal-admin.tar.gz -C admin-ui/dist ."
   },
   "dependencies": {
+    "@pinelab/vendure-plugin-invoices": "^2.1.0",
     "@vendure/admin-ui-plugin": "^2.0.0",
     "@vendure/asset-server-plugin": "^2.0.0",
     "@vendure/core": "^2.0.0",

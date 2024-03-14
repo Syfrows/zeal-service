@@ -3,6 +3,7 @@ import path from "path";
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
 import { promises as fs } from "fs";
 import { DEFAULT_BASE_HREF } from "@vendure/ui-devkit/compiler/constants";
+import { InvoicePlugin } from "@pinelab/vendure-plugin-invoices";
 
 if (require.main === module) {
   // Called directly from command line
@@ -51,6 +52,7 @@ export function customAdminUi(options: {
       baseHref: options.devMode ? DEFAULT_BASE_HREF : "/",
       extensions: [
         ReviewsPlugin.uiExtensions,
+        InvoicePlugin.ui,
         setBranding({
           // The small logo appears in the top left of the screen
           smallLogoPath: path.join(__dirname, "images/logo.png"),

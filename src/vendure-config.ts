@@ -16,6 +16,7 @@ import { RazorpayPlugin } from "vendure-razorpay-payment-plugin";
 import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
 import { GoogleAuthenticationStrategy } from "./plugins/authentication/google-authentication-strategy";
 import { orderPlacedHandler } from "./email-handler";
+import { InvoicePlugin } from "@pinelab/vendure-plugin-invoices";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -163,5 +164,10 @@ export const config: VendureConfig = {
     FavoritesPlugin,
     RazorpayPlugin,
     APIExtensionPlugin,
+    InvoicePlugin.init({
+      vendureHost: IS_DEV
+        ? "http://localhost:3000"
+        : "https://api.relaxzeal.com",
+    }),
   ],
 };
