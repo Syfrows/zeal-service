@@ -51,7 +51,9 @@ export const shiprocketFulfillmentHandler = new FulfillmentHandler({
       mode: "Surface",
       order_id: order.id.toString(),
       order_date: (order.orderPlacedAt || new Date()).toLocaleDateString(),
-      billing_customer_name: address.fullName || "",
+      billing_customer_name:
+        address.fullName?.split(" ")[0] || address.fullName || "",
+      billing_last_name: address.fullName?.split(" ")[1] || "",
       billing_address: [address.streetLine1, address.streetLine2].join(", "),
       billing_city: address.city || "",
       billing_state: address.province || "",
@@ -81,7 +83,7 @@ export const shiprocketFulfillmentHandler = new FulfillmentHandler({
     } catch (error: any) {
       console.error(
         `error while creating fulfillment for orderId : ${orderId}, orderCode : ${order.code} `,
-        error
+        error.response.data
       );
       throw error;
     }

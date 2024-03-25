@@ -5,6 +5,7 @@ export interface ShipmentDetails {
   order_id: string;
   order_date: string;
   billing_customer_name: string;
+  billing_last_name: string;
   billing_address: string;
   billing_city: string;
   billing_state: string;

@@ -120,22 +120,22 @@ export const config: VendureConfig = {
     ShippingMethod: [
       {
         name: "length",
-        type: "int",
+        type: "float",
         ui: { component: "number-form-input", suffix: "cms" },
       },
       {
         name: "breadth",
-        type: "int",
+        type: "float",
         ui: { component: "number-form-input", suffix: "cms" },
       },
       {
         name: "height",
-        type: "int",
+        type: "float",
         ui: { component: "number-form-input", suffix: "cms" },
       },
       {
         name: "weight",
-        type: "int",
+        type: "float",
         ui: { component: "number-form-input", suffix: "kgs" },
       },
       {
