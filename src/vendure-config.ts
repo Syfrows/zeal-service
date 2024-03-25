@@ -17,6 +17,10 @@ import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
 import { GoogleAuthenticationStrategy } from "./plugins/authentication/google-authentication-strategy";
 import { orderPlacedHandler } from "./email-handler";
 import { InvoicePlugin } from "@pinelab/vendure-plugin-invoices";
+import { pinCodeChecker } from "./shipping-methods/pincode-checker";
+import { shippingCostCalculator } from "./shipping-methods/shipping-calculator";
+import { shiprocketFulfillmentHandler } from "./shiprocket-fulfillment-handler";
+import { EventHandlerPlugin } from "./plugins/event-handler/event-handler-plugin";
 
 const IS_DEV = process.env.APP_ENV === "dev";
 
@@ -81,6 +85,11 @@ export const config: VendureConfig = {
   paymentOptions: {
     paymentMethodHandlers: [dummyPaymentHandler],
   },
+  shippingOptions: {
+    shippingEligibilityCheckers: [pinCodeChecker],
+    shippingCalculators: [shippingCostCalculator],
+    fulfillmentHandlers: [shiprocketFulfillmentHandler],
+  },
   // When adding or altering custom field definitions, the database will
   // need to be updated. See the "Migrations" section in README.md.
   customFields: {
@@ -106,6 +115,33 @@ export const config: VendureConfig = {
       {
         name: "OnlyFilter",
         type: "boolean",
+      },
+    ],
+    ShippingMethod: [
+      {
+        name: "length",
+        type: "int",
+        ui: { component: "number-form-input", suffix: "cms" },
+      },
+      {
+        name: "breadth",
+        type: "int",
+        ui: { component: "number-form-input", suffix: "cms" },
+      },
+      {
+        name: "height",
+        type: "int",
+        ui: { component: "number-form-input", suffix: "cms" },
+      },
+      {
+        name: "weight",
+        type: "int",
+        ui: { component: "number-form-input", suffix: "kgs" },
+      },
+      {
+        name: "pickupLocation",
+        type: "text",
+        ui: { component: "form-input" },
       },
     ],
   },
@@ -169,5 +205,6 @@ export const config: VendureConfig = {
         ? "http://localhost:3000"
         : "https://api.relaxzeal.com",
     }),
+    EventHandlerPlugin,
   ],
 };

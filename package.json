@@ -29,6 +29,7 @@
     "@vendure/asset-server-plugin": "^2.0.0",
     "@vendure/core": "^2.0.0",
     "@vendure/email-plugin": "^2.0.0",
+    "axios": "^1.6.8",
     "dotenv": "16.1.4",
     "google-auth-library": "^9.4.1",
     "pg": "8.11.0",
