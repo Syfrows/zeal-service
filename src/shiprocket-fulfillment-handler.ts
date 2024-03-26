@@ -40,11 +40,7 @@ export const shiprocketFulfillmentHandler = new FulfillmentHandler({
     const standardShipping = shippingMethods.items.find(
       (x) => x.code === "standard-shipping"
     )?.customFields as any;
-    const orderPayments = await orderService.getOrderPayments(ctx, orderId);
-    const paymentMethod =
-      orderPayments[0]?.method?.trim() === "cash-on-delivery"
-        ? "COD"
-        : "Prepaid";
+    const paymentMethod = "Prepaid";
     const customer = await customerService.findOne(ctx, order.customerId || 0);
 
     const shipmentDetails: ShipmentDetails = {
@@ -66,10 +62,10 @@ export const shiprocketFulfillmentHandler = new FulfillmentHandler({
         name: line.productVariant.name,
         units: line.quantity,
         sku: line.productVariant.sku,
-        selling_price: line.linePriceWithTax.toString(),
+        selling_price: (line.linePriceWithTax / 100).toString(),
       })),
       payment_method: paymentMethod,
-      sub_total: order.subTotalWithTax,
+      sub_total: order.subTotalWithTax / 100,
       length: standardShipping.length,
       breadth: standardShipping.breadth,
       height: standardShipping.height,

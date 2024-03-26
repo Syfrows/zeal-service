@@ -69,7 +69,7 @@ export const getPickUpPincode = async () => {
 export const isPincodeServiceable = async (deliveryPincode: number) => {
   const pickUpPincode = await getPickUpPincode();
   const response = await shiprocketInstance.get(
-    `courier/serviceability?pickup_postcode=${pickUpPincode}&delivery_postcode=${deliveryPincode}&cod=${1}&weight=1`
+    `courier/serviceability?pickup_postcode=${pickUpPincode}&delivery_postcode=${deliveryPincode}&cod=${0}&weight=1`
   );
   const availableCouriers = response?.data?.data?.available_courier_companies;
   return availableCouriers?.length > 0;
