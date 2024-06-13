@@ -68,14 +68,13 @@ export const config: VendureConfig = {
     requireVerification: false,
   },
   dbConnectionOptions: {
-    type: "postgres",
+    type: "mysql",
     // See the README.md "Migrations" section for an explanation of
     // the `synchronize` and `migrations` options.
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*.+(js|ts)")],
     logging: false,
     database: process.env.DB_NAME,
-    schema: process.env.DB_SCHEMA,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     username: process.env.DB_USERNAME,

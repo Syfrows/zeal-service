@@ -41,41 +41,80 @@ jobs:
       - name: Build & Package Admin UI
         run: |
           npm run admin
-
-      - name: Upload Package To Server
-        uses: appleboy/scp-action@v0.1.4
+    
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          host: sg1-ts106.a2hosting.com
-          username: relaxzea
-          key: ${{ secrets.KEY }}
-          port: 7822
-          source: "zeal-service.tar.gz"
-          target: /home/relaxzea/api.relaxzeal.com/
+          name: zeal-service
+          path: zeal-service.tar.gz
+                
+      # - name: Create API, Worker & Admin UI Dir
+      #   run: |
+      #     mkdir api.relaxzeal.com && tar -xf zeal-service.tar.gz -C api.relaxzeal.com
+      #     mkdir worker.relaxzeal.com && tar -xf zeal-service.tar.gz -C worker.relaxzeal.com
+      #     mkdir admin.relaxzeal.com && tar -xf zeal-admin.tar.gz -C admin.relaxzeal.com
+
+      # - name: Upload API Package To Server
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ftp.relaxzeal.com
+      #     username: relaxzea
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./api.relaxzeal.com/
+      #     server-dir: /api.relaxzeal.com/
+
+      # - name: Upload Worker Package To Server
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ftp.relaxzeal.com
+      #     username: relaxzea
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./worker.relaxzeal.com/
+      #     server-dir: /worker.relaxzeal.com/
+
+      # - name: Upload Admin UI Package To Server
+      #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #   with:
+      #     server: ftp.relaxzeal.com
+      #     username: relaxzea
+      #     password: ${{ secrets.FTP_PASSWORD }}
+      #     local-dir: ./admin.relaxzeal.com/
+      #     server-dir: /public_html/admin.relaxzeal.com/
+
+      # - name: Upload Package To Server
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     host: sg1-ts106.a2hosting.com
+      #     username: relaxzea
+      #     key: ${{ secrets.KEY }}
+      #     port: 7822
+      #     source: "zeal-service.tar.gz"
+      #     target: /home/relaxzea/api.relaxzeal.com/
       
-      - name: Upload Admin UI Package To Server
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: sg1-ts106.a2hosting.com
-          username: relaxzea
-          key: ${{ secrets.KEY }}
-          port: 7822
-          source: "zeal-admin.tar.gz"
-          target: /home/relaxzea/admin.relaxzeal.com/
+      # - name: Upload Admin UI Package To Server
+      #   uses: appleboy/scp-action@v0.1.4
+      #   with:
+      #     host: sg1-ts106.a2hosting.com
+      #     username: relaxzea
+      #     key: ${{ secrets.KEY }}
+      #     port: 7822
+      #     source: "zeal-admin.tar.gz"
+      #     target: /home/relaxzea/admin.relaxzeal.com/
 
-      - name: Extract & Start Application
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: sg1-ts106.a2hosting.com
-          username: relaxzea
-          key: ${{ secrets.KEY }}
-          port: 7822
-          script: |
-            cd api.relaxzeal.com
-            tar -xvf zeal-service.tar.gz
-            cp zeal-service.tar.gz /home/relaxzea/worker.relaxzeal.com/
-            cd /home/relaxzea/worker.relaxzeal.com/
-            tar -xvf zeal-service.tar.gz
-            pkill lsnode
-            wget --timeout=1 --tries=1 https://api.relaxzeal.com/worker || true
-            cd /home/relaxzea/admin.relaxzeal.com/
-            tar -xvf zeal-admin.tar.gz
+      # - name: Extract & Start Application
+      #   uses: appleboy/ssh-action@v1.0.0
+      #   with:
+      #     host: sg1-ts106.a2hosting.com
+      #     username: relaxzea
+      #     key: ${{ secrets.KEY }}
+      #     port: 7822
+      #     script: |
+      #       cd api.relaxzeal.com
+      #       tar -xvf zeal-service.tar.gz
+      #       cp zeal-service.tar.gz /home/relaxzea/worker.relaxzeal.com/
+      #       cd /home/relaxzea/worker.relaxzeal.com/
+      #       tar -xvf zeal-service.tar.gz
+      #       pkill lsnode
+      #       wget --timeout=1 --tries=1 https://api.relaxzeal.com/worker || true
+      #       cd /home/relaxzea/admin.relaxzeal.com/
+      #       tar -xvf zeal-admin.tar.gz

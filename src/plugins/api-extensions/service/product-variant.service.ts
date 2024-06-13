@@ -34,8 +34,9 @@ export class CustomProductVariantService {
     const subQuery = this.connection
       .getRepository(ctx, ProductVariant)
       .createQueryBuilder("productvariant")
-      .select("DISTINCT ON (productvariant.productId) productvariant.id")
-      .where("productvariant.deletedAt IS NULL");
+      .select("MIN(productvariant.id) as id")
+      .where("productvariant.deletedAt IS NULL")
+      .groupBy("productvariant.productId");
 
     const qb = this.listQueryBuilder
       .build(ProductVariant, options, {
