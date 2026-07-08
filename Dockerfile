@@ -1,9 +1,15 @@
-FROM node:16
+FROM node:18
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --production
+RUN corepack enable
+
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+
 COPY . .
-RUN npm run build
+RUN yarn build:prod
+
+EXPOSE 3000
+
+CMD ["yarn", "start:server"]
