@@ -26,7 +26,7 @@ if (require.main === module) {
             apiHost: "https://api.relaxzeal.com",
             apiPort: "443",
             adminApiPath: "admin-api",
-            tokenMethod: "cookie",
+            tokenMethod: "bearer",
             defaultLanguage: "en",
             availableLanguages: ["en", "de"],
             brand: "Zeal",
