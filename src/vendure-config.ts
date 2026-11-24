@@ -11,6 +11,7 @@ import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
 import "dotenv/config";
 import path from "path";
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
+import { DashboardMetricsPlugin } from "./plugins/dashboard-metrics";
 import { FavoritesPlugin } from "./plugins/favorites/plugin";
 import { RazorpayPlugin } from "vendure-razorpay-payment-plugin";
 import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
@@ -194,7 +195,7 @@ export const config: VendureConfig = {
             app: customAdminUi({ recompile: IS_DEV, devMode: IS_DEV }),
           }),
         ]
-      : []),
+      : [DashboardMetricsPlugin]),
     ReviewsPlugin,
     FavoritesPlugin,
     RazorpayPlugin,
