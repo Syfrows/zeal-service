@@ -11,7 +11,6 @@ import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
 import "dotenv/config";
 import path from "path";
 import { ReviewsPlugin } from "./plugins/reviews/reviews-plugin";
-import { DashboardMetricsPlugin } from "./plugins/dashboard-metrics";
 import { FavoritesPlugin } from "./plugins/favorites/plugin";
 import { RazorpayPlugin } from "vendure-razorpay-payment-plugin";
 import { APIExtensionPlugin } from "./plugins/api-extensions/plugin";
@@ -181,21 +180,22 @@ export const config: VendureConfig = {
           "http://localhost:8080/verify-email-address-change",
       },
     }),
-    ...(IS_DEV
-      ? [
-          AdminUiPlugin.init({
-            route: "admin",
-            port: 3002,
-            adminUiConfig: {
-              apiHost: "http://localhost",
-              apiPort: 3000,
-              brand: "Zeal",
-              hideVendureBranding: true,
-            },
-            app: customAdminUi({ recompile: IS_DEV, devMode: IS_DEV }),
-          }),
-        ]
-      : [DashboardMetricsPlugin]),
+    AdminUiPlugin.init({
+      route: "admin",
+      port: 3002,
+      app: IS_DEV
+        ? customAdminUi({ recompile: true, devMode: true })
+        : { path: path.resolve(process.cwd(), "admin-ui/dist") },
+      adminUiConfig: {
+        apiHost: IS_DEV ? "http://localhost" : "https://api.relaxzeal.com",
+        apiPort: IS_DEV ? 3000 : 443,
+        adminApiPath: "admin-api",
+        tokenMethod: "bearer",
+        brand: "Zeal",
+        hideVendureBranding: true,
+        loginImageUrl: "https://zeal.relaxzeal.com/zeal/account.webp",
+      },
+    }),
     ReviewsPlugin,
     FavoritesPlugin,
     RazorpayPlugin,
