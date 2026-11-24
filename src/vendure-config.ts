@@ -5,7 +5,7 @@ import {
   VendureConfig,
   NativeAuthenticationStrategy,
 } from "@vendure/core";
-import { defaultEmailHandlers, EmailPlugin } from "@vendure/email-plugin";
+import { passwordResetHandler, EmailPlugin } from "@vendure/email-plugin";
 import { AssetServerPlugin } from "@vendure/asset-server-plugin";
 import { AdminUiPlugin } from "@vendure/admin-ui-plugin";
 import "dotenv/config";
@@ -160,7 +160,7 @@ export const config: VendureConfig = {
       ...(IS_DEV ? { devMode: true } : {}),
       outputPath: path.join(__dirname, "../static/email/test-emails"),
       route: "mailbox",
-      handlers: [orderPlacedHandler],
+      handlers: [orderPlacedHandler, passwordResetHandler],
       templatePath: path.join(__dirname, "../static/email/templates"),
       transport: {
         type: "smtp",
@@ -176,7 +176,7 @@ export const config: VendureConfig = {
         // Here we are assuming a storefront running at http://localhost:8080.
         fromAddress: '"Zeal" <noreply@relaxzeal.com>',
         verifyEmailAddressUrl: "http://localhost:8080/verify",
-        passwordResetUrl: "http://localhost:8080/password-reset",
+        passwordResetUrl: IS_DEV ? "http://localhost:3000/password-reset" : "https://zeal.relaxzeal.com/password-reset",
         changeEmailAddressUrl:
           "http://localhost:8080/verify-email-address-change",
       },
