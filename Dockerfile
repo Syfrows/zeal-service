@@ -12,6 +12,7 @@ RUN yarn build:prod
 RUN yarn compile-admin-ui
 RUN cp -r static dist/static
 RUN node catalog/install-artwork.js
+RUN node scripts/preserve-admin-rename.js
 
 EXPOSE 3000
 
