@@ -10,6 +10,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn build:prod
 RUN cp -r static dist/static
+RUN node catalog/install-artwork.js
 
 EXPOSE 3000
 

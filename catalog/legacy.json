@@ -1,0 +1,58 @@
+{
+  "mens-performance-tshirt.jpg": [
+    "source/4a/mens-performance-tshirt.jpg",
+    "preview/ad/mens-performance-tshirt__preview.jpg"
+  ],
+  "mens-training-shorts.jpg": [
+    "source/8d/mens-training-shorts.jpg",
+    "preview/24/mens-training-shorts__preview.jpg"
+  ],
+  "mens-track-jacket.jpg": [
+    "source/c9/mens-track-jacket.jpg",
+    "preview/de/mens-track-jacket__preview.jpg"
+  ],
+  "womens-yoga-leggings.jpg": [
+    "source/09/womens-yoga-leggings.jpg",
+    "preview/de/womens-yoga-leggings__preview.jpg"
+  ],
+  "womens-sports-bra.jpg": [
+    "source/62/womens-sports-bra.jpg",
+    "preview/56/womens-sports-bra__preview.jpg"
+  ],
+  "womens-running-tank.jpg": [
+    "source/47/womens-running-tank.jpg",
+    "preview/9b/womens-running-tank__preview.jpg"
+  ],
+  "mens-running-shoes.jpg": [
+    "source/4a/mens-running-shoes.jpg",
+    "preview/6d/mens-running-shoes__preview.jpg"
+  ],
+  "womens-training-shoes.jpg": [
+    "source/a8/womens-training-shoes.jpg",
+    "preview/72/womens-training-shoes__preview.jpg"
+  ],
+  "sports-duffel-bag.jpg": [
+    "source/cc/sports-duffel-bag.jpg",
+    "preview/0a/sports-duffel-bag__preview.jpg"
+  ],
+  "gym-gloves.jpg": [
+    "source/0c/gym-gloves.jpg",
+    "preview/c4/gym-gloves__preview.jpg"
+  ],
+  "mens-sportswear-cat.jpg": [
+    "source/83/mens-sportswear-cat.jpg",
+    "preview/46/mens-sportswear-cat__preview.jpg"
+  ],
+  "womens-sportswear-cat.jpg": [
+    "source/63/womens-sportswear-cat.jpg",
+    "preview/29/womens-sportswear-cat__preview.jpg"
+  ],
+  "footwear-cat.jpg": [
+    "source/66/footwear-cat.jpg",
+    "preview/f5/footwear-cat__preview.jpg"
+  ],
+  "accessories-cat.jpg": [
+    "source/3d/accessories-cat.jpg",
+    "preview/30/accessories-cat__preview.jpg"
+  ]
+}

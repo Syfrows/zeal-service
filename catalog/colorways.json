@@ -1,0 +1,86 @@
+[
+  {
+    "sku": "ZL-MT-001",
+    "slug": "mens-performance-tshirt",
+    "colors": [
+      "Cobalt",
+      "Burgundy"
+    ]
+  },
+  {
+    "sku": "ZL-MT-002",
+    "slug": "mens-training-shorts",
+    "colors": [
+      "Navy",
+      "Slate"
+    ]
+  },
+  {
+    "sku": "ZL-MT-003",
+    "slug": "mens-track-jacket",
+    "colors": [
+      "Black",
+      "Sand"
+    ]
+  },
+  {
+    "sku": "ZL-WT-001",
+    "slug": "womens-yoga-leggings",
+    "colors": [
+      "Plum",
+      "Navy"
+    ]
+  },
+  {
+    "sku": "ZL-WT-002",
+    "slug": "womens-sports-bra",
+    "colors": [
+      "Teal",
+      "Coral"
+    ]
+  },
+  {
+    "sku": "ZL-WT-003",
+    "slug": "womens-running-tank",
+    "colors": [
+      "Sky",
+      "Black"
+    ]
+  },
+  {
+    "sku": "ZL-FW-001",
+    "slug": "mens-running-shoes",
+    "colors": [
+      "Forest",
+      "Navy",
+      "White"
+    ]
+  },
+  {
+    "sku": "ZL-FW-002",
+    "slug": "womens-training-shoes",
+    "colors": [
+      "Black",
+      "Sage",
+      "Rose"
+    ]
+  },
+  {
+    "sku": "ZL-AC-001",
+    "slug": "sports-duffel-bag",
+    "colors": [
+      "Navy",
+      "Olive",
+      "Burgundy"
+    ]
+  },
+  {
+    "sku": "ZL-AC-002",
+    "slug": "gym-gloves",
+    "colors": [
+      "Charcoal",
+      "Cobalt",
+      "Red"
+    ]
+  }
+]
