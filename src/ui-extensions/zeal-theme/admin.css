@@ -1,0 +1,28 @@
+/* Refine Vendure's existing forms and widgets, including its theme colors. */
+vdr-login .login-wrapper .login-wrapper-inner {
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 18px 60px rgba(24, 35, 28, .18);
+}
+vdr-login .login-wrapper .login-wrapper-image img { object-fit: cover; }
+vdr-login .login-wrapper .login-wrapper-form { padding: clamp(1.25rem, 4vw, 3rem); }
+vdr-login .login-wrapper .login-title { font-weight: 750; letter-spacing: -.03em; }
+vdr-login .login-form input:not([type="checkbox"]) { min-height: 44px; font-size: 16px; }
+vdr-login .login-form .login-button {
+  min-height: 44px; border-radius: .45rem; background: #253d30; color: white;
+}
+vdr-login .login-form :focus-visible, vdr-dashboard :focus-visible {
+  outline: 3px solid #588966; outline-offset: 3px;
+}
+vdr-dashboard .dashboard-item { min-width: 0; }
+vdr-dashboard vdr-dashboard-widget .card-container {
+  border-radius: .8rem; box-shadow: 0 3px 16px rgba(24, 35, 28, .09);
+}
+vdr-dashboard vdr-dashboard-widget .title-row { border-top: 3px solid #728a66; }
+vdr-dashboard vdr-dashboard-widget .contents { overflow-x: auto; }
+@media (max-width: 720px) {
+  vdr-login .login-wrapper .login-wrapper-inner { width: 100%; max-width: 30rem; }
+  vdr-login .login-wrapper .login-wrapper-image { display: none; }
+  vdr-login .login-wrapper .login-wrapper-form { width: 100%; max-width: none; }
+  vdr-dashboard .dashboard-row > div { flex: 0 0 100%; max-width: 100%; }
+}

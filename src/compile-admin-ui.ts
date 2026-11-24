@@ -30,6 +30,7 @@ if (require.main === module) {
             defaultLanguage: "en",
             availableLanguages: ["en", "de"],
             brand: "Zeal",
+            loginImageUrl: "https://zeal.relaxzeal.com/zeal/account.webp",
             hideVendureBranding: true,
             hideVersion: false,
           })
@@ -51,6 +52,7 @@ export function customAdminUi(options: {
       outputPath: compiledAppPath,
       baseHref: options.devMode ? DEFAULT_BASE_HREF : "/",
       extensions: [
+        { globalStyles: path.join(__dirname, "ui-extensions/zeal-theme/admin.css") },
         ReviewsPlugin.uiExtensions,
         InvoicePlugin.ui,
         setBranding({
