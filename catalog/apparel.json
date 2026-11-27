@@ -1,0 +1,119 @@
+[
+  {
+    "name": "Training Polo",
+    "slug": "training-polo",
+    "sku": "ZL-STYLE-1",
+    "category": "mens-sportswear",
+    "price": 79900,
+    "description": "Navy short-sleeve polo with a fold-over collar.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Long Sleeve Crew Shirt",
+    "slug": "long-sleeve-crew-shirt",
+    "sku": "ZL-STYLE-2",
+    "category": "mens-sportswear",
+    "price": 89900,
+    "description": "Rust long-sleeve shirt with a crew neckline.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Split Running Shorts",
+    "slug": "split-running-shorts",
+    "sku": "ZL-STYLE-3",
+    "category": "mens-sportswear",
+    "price": 64900,
+    "description": "Teal running shorts with a split hem.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Cycling Shorts",
+    "slug": "cycling-shorts",
+    "sku": "ZL-STYLE-4",
+    "category": "womens-sportswear",
+    "price": 74900,
+    "description": "Black fitted cycling shorts.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Hooded Windbreaker",
+    "slug": "hooded-windbreaker",
+    "sku": "ZL-STYLE-5",
+    "category": "mens-sportswear",
+    "price": 149900,
+    "description": "Ochre zip-front windbreaker with a hood.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Quilted Vest Jacket",
+    "slug": "quilted-vest-jacket",
+    "sku": "ZL-STYLE-6",
+    "category": "mens-sportswear",
+    "price": 139900,
+    "description": "Forest green sleeveless quilted jacket.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Tapered Joggers",
+    "slug": "tapered-joggers",
+    "sku": "ZL-STYLE-7",
+    "category": "mens-sportswear",
+    "price": 99900,
+    "description": "Charcoal joggers with tapered legs and cuffed ankles.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Straight Track Pants",
+    "slug": "straight-track-pants",
+    "sku": "ZL-STYLE-8",
+    "category": "mens-sportswear",
+    "price": 109900,
+    "description": "Indigo track pants with a straight leg.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  },
+  {
+    "name": "Racerback Crop Top",
+    "slug": "racerback-crop-top",
+    "sku": "ZL-STYLE-9",
+    "category": "womens-sportswear",
+    "price": 69900,
+    "description": "Plum cropped workout top with a racerback cut.",
+    "sizes": [
+      "S",
+      "M",
+      "L"
+    ]
+  }
+]
