@@ -5,6 +5,7 @@ bootstrap(config).then(async app => {
   await require(process.cwd() + "/catalog/install-colorways")(app);
   await require(process.cwd() + "/catalog/install-category-products")(app);
   await require(process.cwd() + "/catalog/install-product-types")(app);
+  await require(process.cwd() + "/catalog/install-activity")(app);
 }).catch((err) => {
   console.log(err);
 });
